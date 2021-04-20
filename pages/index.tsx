@@ -9,10 +9,14 @@ export default function Home(props) {
 
   console.log(data[0]);
 
+  const getCoinDetails = async (id) => {
+    return await coinGeckoClient.coins.fetch(id);
+  };
+
   return (
     <div className={"flex justify-center"}>
       <div className={"py-6 align-middle inline-block"}>
-        <CoinTable data={data} />
+        <CoinTable data={data} getCoinDetails={getCoinDetails} />
       </div>
     </div>
   );
