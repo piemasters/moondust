@@ -7,40 +7,44 @@ import { useState } from "react";
 const CoinTable = ({ data, getCoinDetails }) => {
   const formatPercent = (number) => `${Number(number).toFixed(2)}%`;
 
-  const formatDollar = (number) =>
+  const formatCurrency = (number) =>
     new Intl.NumberFormat("en-GB", {
       style: "currency",
       currency: "GBP",
     }).format(number);
 
   const [open, setOpen] = useState(false);
-  const [activeCoin, setActiveCoin] = useState({});
+  const [activeCoin, setActiveCoin] = useState(null);
 
   const openModal = async (coinId) => {
-    setOpen(true);
     const coin = await getCoinDetails(coinId);
     setActiveCoin(coin.data);
+    setOpen(true);
   };
 
   const Modal = dynamic(() => import("./CoinTableModal"));
 
   return (
     <div>
-      <table className={"min-w-full divide-y divide-gray-200 shadow"}>
-        <thead className={"bg-gray-50"}>
+      <table className="min-w-full divide-y divide-gray-200 shadow">
+        <thead className="bg-gray-50">
           <tr>
-            <CoinTableHeader headerText={"Rank"} />
-            <CoinTableHeader headerText={"Coin"} />
-            <CoinTableHeader headerText={"Price"} />
-            <CoinTableHeader headerText={"24h"} />
-            <CoinTableHeader headerText={"Market Cap"} />
+            <CoinTableHeader>Rank</CoinTableHeader>
+            <CoinTableHeader>Coin</CoinTableHeader>
+            <CoinTableHeader>Price</CoinTableHeader>
+            <CoinTableHeader>24h</CoinTableHeader>
+            <CoinTableHeader>Market Cap</CoinTableHeader>
           </tr>
         </thead>
-        <tbody className={"bg-white divide-y divide-gray-200"}>
+        <tbody className="bg-white divide-y divide-gray-200">
           {data.map((coin) => (
-            <tr key={coin.id} onClick={() => openModal(coin.id)}>
+            <tr
+              key={coin.id}
+              onClick={() => openModal(coin.id)}
+              className="hover:cursor-pointer hover:bg-gray-100"
+            >
               <CoinTableCell>
-                <div className={"text-sm text-gray-900"}>
+                <div className="text-sm text-gray-900">
                   {coin.market_cap_rank}
                 </div>
               </CoinTableCell>
@@ -59,8 +63,8 @@ const CoinTable = ({ data, getCoinDetails }) => {
                 </div>
               </CoinTableCell>
               <CoinTableCell>
-                <div className={"text-sm text-gray-900"}>
-                  {formatDollar(coin.current_price)}
+                <div className="text-sm text-gray-900">
+                  {formatCurrency(coin.current_price)}
                 </div>
               </CoinTableCell>
               <CoinTableCell>
@@ -76,14 +80,22 @@ const CoinTable = ({ data, getCoinDetails }) => {
               </CoinTableCell>
               <CoinTableCell>
                 <div className={"text-sm text-gray-900"}>
-                  {formatDollar(coin.market_cap)}
+                  {formatCurrency(coin.market_cap)}
                 </div>
               </CoinTableCell>
             </tr>
           ))}
         </tbody>
       </table>
-      <Modal open={open} setOpen={setOpen} coin={activeCoin} />
+      {activeCoin && (
+        <Modal
+          open={open}
+          setOpen={setOpen}
+          coinData={activeCoin}
+          formatCurrency={formatCurrency}
+          formatPercent={formatPercent}
+        />
+      )}
     </div>
   );
 };

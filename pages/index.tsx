@@ -7,8 +7,6 @@ const coinGeckoClient = new CoinGecko();
 export default function Home(props) {
   const { data } = props.result;
 
-  console.log(data[0]);
-
   const getCoinDetails = async (id) => {
     return await coinGeckoClient.coins.fetch(id);
   };

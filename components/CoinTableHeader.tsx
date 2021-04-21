@@ -1,14 +1,14 @@
 import "tailwindcss/tailwind.css";
 
-const CoinTableHeader = ({ headerText }) => {
+const CoinTableHeader = (props) => {
   return (
     <th
       scope="col"
       className={
-        "px-6 py-3 text-left text-xs font-medium text-gray-500 text-center uppercase tracking-wider"
+        "px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"
       }
     >
-      {headerText}
+      {props.children}
     </th>
   );
 };
