@@ -1,28 +1,12 @@
+import Link from "next/link";
+import { useContextualRouting } from "next-use-contextual-routing";
 import "tailwindcss/tailwind.css";
 import CoinTableHeader from "./CoinTableHeader";
 import CoinTableCell from "./CoinTableCell";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+import { formatCurrency, formatPercent } from "../utils/formatting";
 
-const CoinTable = ({ data, getCoinDetails }) => {
-  const formatPercent = (number) => `${Number(number).toFixed(2)}%`;
-
-  const formatCurrency = (number) =>
-    new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    }).format(number);
-
-  const [open, setOpen] = useState(false);
-  const [activeCoin, setActiveCoin] = useState(null);
-
-  const openModal = async (coinId) => {
-    const coin = await getCoinDetails(coinId);
-    setActiveCoin(coin.data);
-    setOpen(true);
-  };
-
-  const Modal = dynamic(() => import("./CoinTableModal"));
+const CoinTable = ({ data }) => {
+  const { makeContextualHref, returnHref } = useContextualRouting();
 
   return (
     <div>
@@ -38,64 +22,59 @@ const CoinTable = ({ data, getCoinDetails }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {data.map((coin) => (
-            <tr
+            // <Link href={`/coin/${coin.id}`} key={coin.id}>
+            <Link
+              href={makeContextualHref({ coinId: coin.id })}
+              as={`/coin/${coin.id}`}
+              shallow
               key={coin.id}
-              onClick={() => openModal(coin.id)}
-              className="hover:cursor-pointer hover:bg-gray-100"
             >
-              <CoinTableCell>
-                <div className="text-sm text-gray-900">
-                  {coin.market_cap_rank}
-                </div>
-              </CoinTableCell>
-              <CoinTableCell>
-                <div className={"flex items-center"}>
-                  <div className={"flex-shrink-0 h-6 w-6 mr-2"}>
-                    <img
-                      src={coin.image}
-                      alt={coin.symbol.toUpperCase()}
-                      className={`w-6 h-6`}
-                    />
+              <tr className="hover:cursor-pointer hover:bg-gray-100">
+                <CoinTableCell>
+                  <div className="text-sm text-gray-900">
+                    {coin.market_cap_rank}
                   </div>
-                  <div className={"text-sm font-medium text-gray-900"}>
-                    {coin.symbol.toUpperCase()}
+                </CoinTableCell>
+                <CoinTableCell>
+                  <div className={"flex items-center"}>
+                    <div className={"flex-shrink-0 h-6 w-6 mr-2"}>
+                      <img
+                        src={coin.image}
+                        alt={coin.symbol.toUpperCase()}
+                        className={`w-6 h-6`}
+                      />
+                    </div>
+                    <div className={"text-sm font-medium text-gray-900"}>
+                      {coin.symbol.toUpperCase()}
+                    </div>
                   </div>
-                </div>
-              </CoinTableCell>
-              <CoinTableCell>
-                <div className="text-sm text-gray-900">
-                  {formatCurrency(coin.current_price)}
-                </div>
-              </CoinTableCell>
-              <CoinTableCell>
-                <div
-                  className={`text-sm ${
-                    coin.price_change_percentage_24h > 0
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {formatPercent(coin.price_change_percentage_24h)}
-                </div>
-              </CoinTableCell>
-              <CoinTableCell>
-                <div className={"text-sm text-gray-900"}>
-                  {formatCurrency(coin.market_cap)}
-                </div>
-              </CoinTableCell>
-            </tr>
+                </CoinTableCell>
+                <CoinTableCell>
+                  <div className="text-sm text-gray-900">
+                    {formatCurrency(coin.current_price)}
+                  </div>
+                </CoinTableCell>
+                <CoinTableCell>
+                  <div
+                    className={`text-sm ${
+                      coin.price_change_percentage_24h > 0
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {formatPercent(coin.price_change_percentage_24h)}
+                  </div>
+                </CoinTableCell>
+                <CoinTableCell>
+                  <div className={"text-sm text-gray-900"}>
+                    {formatCurrency(coin.market_cap)}
+                  </div>
+                </CoinTableCell>
+              </tr>
+            </Link>
           ))}
         </tbody>
       </table>
-      {activeCoin && (
-        <Modal
-          open={open}
-          setOpen={setOpen}
-          coinData={activeCoin}
-          formatCurrency={formatCurrency}
-          formatPercent={formatPercent}
-        />
-      )}
     </div>
   );
 };
