@@ -17,7 +17,7 @@ export default CoinPage;
 
 export async function getStaticProps(context) {
   const req = await fetch(
-    `http://localhost:3000/api/coins/${context.params.coinId}`
+    `${process.env.API_URL}/coins/${context.params.coinId}`
   );
   const coinData = await req.json();
   return { props: { coinData } };

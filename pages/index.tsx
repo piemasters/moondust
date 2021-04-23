@@ -38,7 +38,7 @@ export default function Home({ coins }) {
 }
 
 export async function getStaticProps() {
-  const req = await fetch(`http://localhost:3000/api/coins`);
+  const req = await fetch(`${process.env.API_URL}/coins`);
   const coins = await req.json();
   return { props: { coins } };
 }
