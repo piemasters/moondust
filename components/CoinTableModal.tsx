@@ -2,7 +2,7 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import "tailwindcss/tailwind.css";
 
-const CoinTableModal = ({ children, open, closeModal }) => {
+const CoinTableModal = ({ children, open, closeModal, title }) => {
   const cancelButtonRef = useRef();
 
   return (
@@ -49,8 +49,7 @@ const CoinTableModal = ({ children, open, closeModal }) => {
             >
               <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-                  {/*{title}*/}
-                  Coin
+                  {title}
                 </Dialog.Title>
 
                 {children}

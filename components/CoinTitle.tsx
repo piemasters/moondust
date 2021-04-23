@@ -1,6 +1,5 @@
 import "tailwindcss/tailwind.css";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
-import { Dialog } from "@headlessui/react";
 
 const CoinTitle = ({ coin }) => {
   return (

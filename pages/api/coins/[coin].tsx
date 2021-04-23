@@ -1,40 +1,9 @@
-import { useState } from "react";
 import CoinGecko from "coingecko-api";
-import CoinTitle from "../../components/CoinTitle";
-import CoinDetails from "../../components/CoinDetails";
-import ModalContent from "../../components/ModalContent";
-import { formatCurrency } from "../../utils/formatting";
-import Coin from "../../data/Coin";
+import { formatCurrency } from "../../../utils/formatting";
 
-const CoinPage = ({ coinData }) => {
-  const [open, setOpen] = useState(true);
-
-  console.log("HERE! coin page");
-  console.log(" - ", coinData);
-
-  function closeModal() {
-    setOpen(false);
-  }
-
-  const coin = coinData ? coinData : Coin;
-
-  return (
-    // <ModalContent
-    //   title={<CoinTitle coin={coin} />}
-    //   content={<CoinDetails coin={coin} />}
-    //   closeModal={closeModal}
-    // />
-    <CoinDetails coin={coin} />
-  );
-};
-
-export default CoinPage;
-
-export async function getServerSideProps(context) {
-  console.log("HERE! coin page server");
-
+export default async (req, res) => {
   const coinGeckoClient = new CoinGecko();
-  const coinRawData = await coinGeckoClient.coins.fetch(context.params.coinId);
+  const coinRawData = await coinGeckoClient.coins.fetch(req.query.coin);
   const coinData = {
     name: coinRawData.data.name,
     image: coinRawData.data.image.small,
@@ -70,5 +39,6 @@ export async function getServerSideProps(context) {
       stars: coinRawData.data.developer_data.stars.toLocaleString(),
     },
   };
-  return { props: { coinData } };
-}
+  res.statusCode = 200;
+  res.json(coinData);
+};
