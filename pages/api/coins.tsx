@@ -6,6 +6,5 @@ export default async (req, res) => {
     vs_currency: "gbp",
     order: CoinGecko.ORDER.MARKET_CAP_DESC,
   });
-  res.statusCode = 200;
-  res.json(coins.data);
+  res.status(200).json(JSON.stringify(coins.data));
 };

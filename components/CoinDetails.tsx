@@ -17,6 +17,9 @@ const CoinDetails = ({ coin }) => {
     }).format(number);
 
   const percentCell = (val) => {
+    if (isNaN(val)) {
+      return "-";
+    }
     return (
       <span className={val > 0 ? "text-green-500" : "text-red-500"}>
         {formatPercent(val)}
@@ -25,6 +28,9 @@ const CoinDetails = ({ coin }) => {
   };
 
   const currencyCell = (val) => {
+    if (isNaN(val)) {
+      return "-";
+    }
     return (
       <span className={val > 0 ? "text-green-500" : "text-red-500"}>
         {formatCurrency(val)}

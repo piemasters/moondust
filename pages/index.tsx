@@ -5,6 +5,7 @@ import { useState } from "react";
 import CoinTitle from "../components/CoinTitle";
 import CoinDetails from "../components/CoinDetails";
 import Coin from "../data/Coin";
+import { getCoinRemote, getCoinsLocal, getCoinsRemote } from "../utils/api";
 
 export default function Home({ coins }) {
   const [open, setOpen] = useState(false);
@@ -16,9 +17,10 @@ export default function Home({ coins }) {
 
   const openModal = async (coinId) => {
     setOpen(true);
-    const req = await fetch(`/api/coins/${coinId}`);
-    const coinData = await req.json();
-    setCoinData(coinData);
+    // Get data (SSR or SSG)
+    // const data = await getCoinLocal(coinId);
+    const data = await getCoinRemote(coinId);
+    setCoinData(data.props.coinData);
   };
 
   return (
@@ -37,8 +39,12 @@ export default function Home({ coins }) {
   );
 }
 
+// Used for SSR
+// export async function getServerSideProps() {
+//   return getCoinsLocal();
+// }
+
+// Used for SSG
 export async function getStaticProps() {
-  const req = await fetch(`${process.env.API_URL}/coins`);
-  const coins = await req.json();
-  return { props: { coins } };
+  return getCoinsRemote();
 }
