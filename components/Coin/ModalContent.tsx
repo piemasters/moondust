@@ -1,14 +1,10 @@
 import "tailwindcss/tailwind.css";
-import { Dialog } from "@headlessui/react";
+import CoinDetails from "./Details";
 
-const ModalContent = ({ title, content, closeModal }) => {
+const CoinModalContent = ({ coin, closeModal }) => {
   return (
-    <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-      <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-        {title}
-      </Dialog.Title>
-
-      {content}
+    <div className="mt-6">
+      <CoinDetails coin={coin} />
 
       <div className="mt-4 flex flex-row-reverse w-full">
         <button
@@ -23,4 +19,4 @@ const ModalContent = ({ title, content, closeModal }) => {
   );
 };
 
-export default ModalContent;
+export default CoinModalContent;

@@ -1,13 +1,13 @@
 import "tailwindcss/tailwind.css";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 
-const CoinTitle = ({ coin }) => {
+const CoinModalTitle = ({ coin }) => {
   return (
     <a
       href={coin.link}
       target="_blank"
       rel="noopener noreferrer"
-      className={"flex items-center"}
+      className="flex items-center outline-none"
     >
       <img src={coin.image} alt={coin.name} className={`w-8 h-8 mr-2`} />
 
@@ -17,4 +17,4 @@ const CoinTitle = ({ coin }) => {
   );
 };
 
-export default CoinTitle;
+export default CoinModalTitle;

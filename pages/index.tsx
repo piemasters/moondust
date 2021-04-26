@@ -1,11 +1,11 @@
 import "tailwindcss/tailwind.css";
-import CoinTable from "../components/CoinTable";
-import CoinTableModal from "../components/CoinTableModal";
 import { useState } from "react";
-import CoinTitle from "../components/CoinTitle";
-import CoinDetails from "../components/CoinDetails";
 import Coin from "../data/Coin";
-import { getCoinRemote, getCoinsLocal, getCoinsRemote } from "../utils/api";
+import { getCoinRemote, getCoinsRemote } from "../utils/api";
+import CoinTable from "../components/Coin/Table";
+import Modal from "../components/Common/Modal";
+import CoinModalTitle from "../components/Coin/ModalTitle";
+import CoinModalContent from "../components/Coin/ModalContent";
 
 export default function Home({ coins }) {
   const [open, setOpen] = useState(false);
@@ -27,13 +27,13 @@ export default function Home({ coins }) {
     <div className={"flex justify-center"}>
       <div className={"py-6 align-middle inline-block"}>
         <CoinTable data={coins} openModal={openModal} />
-        <CoinTableModal
+        <Modal
           open={open}
           closeModal={closeModal}
-          title={<CoinTitle coin={coinData} />}
+          title={<CoinModalTitle coin={coinData} />}
         >
-          <CoinDetails coin={coinData} />
-        </CoinTableModal>
+          <CoinModalContent coin={coinData} closeModal={closeModal} />
+        </Modal>
       </div>
     </div>
   );

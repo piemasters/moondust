@@ -1,13 +1,20 @@
 import "tailwindcss/tailwind.css";
-import CoinTableHeader from "./CoinTableHeader";
-import CoinTableCell from "./CoinTableCell";
 import {
   AnnotationIcon,
   HashtagIcon,
   StarIcon,
   UserGroupIcon,
 } from "@heroicons/react/solid";
-import { formatPercent } from "../utils/formatting";
+import { formatPercent } from "../../utils/formatting";
+import Table from "../Common/Table";
+
+const CoinTableCell = (props) => {
+  return (
+    <td className={"px-6 py-4 whitespace-nowrap text-center"}>
+      {props.children}
+    </td>
+  );
+};
 
 const CoinDetails = ({ coin }) => {
   const formatCurrency = (number) =>
@@ -39,7 +46,7 @@ const CoinDetails = ({ coin }) => {
   };
 
   return (
-    <div className="mt-6">
+    <>
       <div
         dangerouslySetInnerHTML={{
           __html: coin.description,
@@ -59,15 +66,9 @@ const CoinDetails = ({ coin }) => {
             <span className="text-green-500 ml-2">{coin.price.high}</span>
           </div>
         </div>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              {coin.price.ranges.map((range, index) => (
-                <CoinTableHeader key={index}>{range}</CoinTableHeader>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+
+        <Table headerValues={coin.price.ranges}>
+          <>
             <tr>
               {coin.price.percentages.map((percentage, index) => (
                 <CoinTableCell key={index}>
@@ -82,8 +83,8 @@ const CoinDetails = ({ coin }) => {
                 </CoinTableCell>
               ))}
             </tr>
-          </tbody>
-        </table>
+          </>
+        </Table>
       </div>
 
       <div>
@@ -123,7 +124,7 @@ const CoinDetails = ({ coin }) => {
           <div className="text-sm text-gray-500">Github stars</div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

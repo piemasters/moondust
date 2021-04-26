@@ -1,7 +1,8 @@
-import CoinTitle from "../../components/CoinTitle";
-import CoinDetails from "../../components/CoinDetails";
-import { getCoinLocal, getCoinRemote, getCoinsRemote } from "../../utils/api";
+import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
+import { getCoinRemote, getCoinsRemote } from "../../utils/api";
+import CoinModalTitle from "../../components/Coin/ModalTitle";
+import CoinDetails from "../../components/Coin/Details";
 
 const CoinPage = ({ coinData }) => {
   const router = useRouter();
@@ -12,8 +13,8 @@ const CoinPage = ({ coinData }) => {
 
   return (
     <div className={"flex justify-center"}>
-      <div className={"py-6 align-middle inline-block  max-w-lg"}>
-        <CoinTitle coin={coinData} />
+      <div className={"py-6 align-middle inline-block  max-w-xl"}>
+        <CoinModalTitle coin={coinData} />
         <CoinDetails coin={coinData} />
       </div>
     </div>
