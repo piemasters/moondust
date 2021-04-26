@@ -1,33 +1,50 @@
-import CoinGecko from "coingecko-api";
 import "tailwindcss/tailwind.css";
 import CoinTable from "../components/CoinTable";
+import CoinTableModal from "../components/CoinTableModal";
+import { useState } from "react";
+import CoinTitle from "../components/CoinTitle";
+import CoinDetails from "../components/CoinDetails";
+import Coin from "../data/Coin";
+import { getCoinRemote, getCoinsLocal, getCoinsRemote } from "../utils/api";
 
-const coinGeckoClient = new CoinGecko();
+export default function Home({ coins }) {
+  const [open, setOpen] = useState(false);
+  const [coinData, setCoinData] = useState(Coin);
 
-export default function Home(props) {
-  const { data } = props.result;
+  function closeModal() {
+    setOpen(false);
+  }
 
-  const getCoinDetails = async (id) => {
-    return await coinGeckoClient.coins.fetch(id);
+  const openModal = async (coinId) => {
+    setOpen(true);
+    // Get data (SSR or SSG)
+    // const data = await getCoinLocal(coinId);
+    const data = await getCoinRemote(coinId);
+    setCoinData(data.props.coinData);
   };
 
   return (
     <div className={"flex justify-center"}>
       <div className={"py-6 align-middle inline-block"}>
-        <CoinTable data={data} getCoinDetails={getCoinDetails} />
+        <CoinTable data={coins} openModal={openModal} />
+        <CoinTableModal
+          open={open}
+          closeModal={closeModal}
+          title={<CoinTitle coin={coinData} />}
+        >
+          <CoinDetails coin={coinData} />
+        </CoinTableModal>
       </div>
     </div>
   );
 }
 
-export async function getServerSideProps(context) {
-  const result = await coinGeckoClient.coins.markets({
-    vs_currency: "gbp",
-    order: CoinGecko.ORDER.MARKET_CAP_DESC,
-  });
-  return {
-    props: {
-      result,
-    },
-  };
+// Used for SSR
+// export async function getServerSideProps() {
+//   return getCoinsLocal();
+// }
+
+// Used for SSG
+export async function getStaticProps() {
+  return getCoinsRemote();
 }

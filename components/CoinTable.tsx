@@ -1,29 +1,9 @@
 import "tailwindcss/tailwind.css";
 import CoinTableHeader from "./CoinTableHeader";
 import CoinTableCell from "./CoinTableCell";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+import { formatCurrency, formatPercent } from "../utils/formatting";
 
-const CoinTable = ({ data, getCoinDetails }) => {
-  const formatPercent = (number) => `${Number(number).toFixed(2)}%`;
-
-  const formatCurrency = (number) =>
-    new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    }).format(number);
-
-  const [open, setOpen] = useState(false);
-  const [activeCoin, setActiveCoin] = useState(null);
-
-  const openModal = async (coinId) => {
-    const coin = await getCoinDetails(coinId);
-    setActiveCoin(coin.data);
-    setOpen(true);
-  };
-
-  const Modal = dynamic(() => import("./CoinTableModal"));
-
+const CoinTable = ({ data, openModal }) => {
   return (
     <div>
       <table className="min-w-full divide-y divide-gray-200 shadow">
@@ -87,15 +67,6 @@ const CoinTable = ({ data, getCoinDetails }) => {
           ))}
         </tbody>
       </table>
-      {activeCoin && (
-        <Modal
-          open={open}
-          setOpen={setOpen}
-          coinData={activeCoin}
-          formatCurrency={formatCurrency}
-          formatPercent={formatPercent}
-        />
-      )}
     </div>
   );
 };
