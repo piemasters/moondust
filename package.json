@@ -10,7 +10,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.6",
-    "axios": "^0.24.0",
+    "axios": "^1.2.5",
     "coingecko-api": "^1.0.10",
     "next": "12.0.8",
     "prettier": "^2.5.1",
