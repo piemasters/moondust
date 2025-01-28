@@ -1,6 +1,7 @@
 import "tailwindcss/tailwind.css";
 import { useState } from "react";
 import Coin from "../data/Coin";
+// import { getCoinLocal, getCoinsLocal } from "../utils/api";
 import { getCoinRemote, getCoinsRemote } from "../utils/api";
 import CoinTable from "../components/Coin/Table";
 import Modal from "../components/Common/Modal";

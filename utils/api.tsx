@@ -25,9 +25,12 @@ export const getCoinRemote = async (coinId) => {
 
 export const getCoinsRemote = async () => {
   const coinGeckoClient = new CoinGecko();
-  const coins = await coinGeckoClient.coins.markets({
-    vs_currency: "gbp",
-    order: CoinGecko.ORDER.MARKET_CAP_DESC,
-  });
+  // const coins = await coinGeckoClient.coins.markets({
+  //   vs_currency: "gbp",
+  //   order: CoinGecko.ORDER.MARKET_CAP_DESC,
+  // });
+  const coins = await axios.get(
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=gbp&order=market_cap_desc&per_page=100"
+  );
   return { props: { coins: coins.data }, revalidate: 30 };
 };

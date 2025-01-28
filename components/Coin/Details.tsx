@@ -51,19 +51,19 @@ const CoinDetails = ({ coin }) => {
         dangerouslySetInnerHTML={{
           __html: coin.description,
         }}
-        className="max-h-28 overflow-auto mb-4 text-sm text-gray-500"
+        className="mb-4 overflow-auto text-sm text-gray-500 max-h-28"
       />
 
       <div>
-        <h2 className="text-lg font-medium mb-4">Price Change</h2>
+        <h2 className="mb-4 text-lg font-medium">Price Change</h2>
         <div className="flex mb-4">
-          <div className="flex-1 text-center font-medium">
+          <div className="flex-1 font-medium text-center">
             24h Low:
-            <span className="text-red-500 ml-2 ">{coin.price.low}</span>
+            <span className="ml-2 text-red-500 ">{coin.price.low}</span>
           </div>
-          <div className="flex-1 text-center font-medium">
+          <div className="flex-1 font-medium text-center">
             24h High:
-            <span className="text-green-500 ml-2">{coin.price.high}</span>
+            <span className="ml-2 text-green-500">{coin.price.high}</span>
           </div>
         </div>
 
@@ -88,37 +88,37 @@ const CoinDetails = ({ coin }) => {
       </div>
 
       <div>
-        <h2 className="text-lg font-medium mb-4">Popularity</h2>
-        <div className="text-md font-medium">Today's Sentiment</div>
-        <div className="h-3 relative max-w-xl rounded-full overflow-hidden mb-2">
-          <div className="w-full h-full bg-red-500 absolute" />
+        <h2 className="mb-4 text-lg font-medium">Popularity</h2>
+        <div className="font-medium text-md">Today's Sentiment</div>
+        <div className="relative h-3 max-w-xl mb-2 overflow-hidden rounded-full">
+          <div className="absolute w-full h-full bg-red-500" />
           <div
-            className="h-full bg-green-500 absolute"
+            className="absolute h-full bg-green-500"
             style={{ width: `${coin.popularity.upVotes}%` }}
           />
         </div>
         <div className="flex items-center">
-          <HashtagIcon className="h-5 w-5 mr-1" />
-          <div className="text-md font-medium mr-1">{coin.popularity.rank}</div>
+          <HashtagIcon className="w-5 h-5 mr-1" />
+          <div className="mr-1 font-medium text-md">{coin.popularity.rank}</div>
           <div className="text-sm text-gray-500">CoinGecko rank</div>
         </div>
         <div className="flex">
-          <UserGroupIcon className="h-5 w-5 text-red-500 mr-1" />
-          <div className="text-md font-medium mr-2">
+          <UserGroupIcon className="w-5 h-5 mr-1 text-red-500" />
+          <div className="mr-2 font-medium text-md">
             {coin.popularity.redditSubscribers}
           </div>
           <div className="text-sm text-gray-500">Reddit subscribers</div>
         </div>
         <div className="flex align-baseline">
-          <AnnotationIcon className="h-5 w-5 text-red-500 mr-1" />
-          <div className="text-md font-medium mr-2">
+          <AnnotationIcon className="w-5 h-5 mr-1 text-red-500" />
+          <div className="mr-2 font-medium text-md">
             {coin.popularity.redditComments}
           </div>
           <div className="text-sm text-gray-500">Reddit comments per hour</div>
         </div>
         <div className="flex">
-          <StarIcon className="h-5 w-5 text-yellow-500 mr-1" />
-          <div className="text-md font-medium mr-2">
+          <StarIcon className="w-5 h-5 mr-1 text-yellow-500" />
+          <div className="mr-2 font-medium text-md">
             {coin.popularity.stars}
           </div>
           <div className="text-sm text-gray-500">Github stars</div>
